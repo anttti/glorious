@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Glorious</title>
+    <script>
+      (function() {
+        if (!process.env.HOT) {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = './dist/style.css';
+          // HACK: Writing the script path should be done with webpack
+          document.getElementsByTagName('head')[0].appendChild(link);
+        }
+      }());
+    </script>
+    <style>
+      @import 'fonts.css';
+
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        position: relative;
+        color: #262626;
+        height: 100vh;
+        font-family: 'IBM Plex Sans', Arial, Helvetica, Helvetica Neue, serif;
+        overflow-y: hidden;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 2.25rem;
+        font-weight: bold;
+        letter-spacing: -0.025em;
+      }
+
+      p {
+        font-size: 24px;
+      }
+
+      li {
+        list-style: none;
+      }
+
+      a {
+        opacity: 0.75;
+        text-decoration: none;
+      }
+
+      a:hover {
+        opacity: 1;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .top-bar {
+        height: 40px;
+        background: #F0F4F4;
+        /* background: rgba(0, 0, 0, 0.05); */
+        /* border-bottom: 1px solid rgba(0, 0, 0, 0.05); */
+        -webkit-app-region: drag;
+      }
+      .logo {
+        width: 66px;
+        margin: 0 auto;
+        display: block;
+        position: relative;
+        top: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <img src="./img/glorious.png" class="logo" />
+    </div>
+    <div id="root"></div>
+    <script src="./fonts/fontawesome-all.js"></script>
+    <script>
+      {
+        const scripts = [];
+
+        // Dynamically insert the DLL script in development env in the
+        // renderer process
+        if (process.env.NODE_ENV === 'development') {
+          scripts.push('../dll/renderer.dev.dll.js');
+        }
+
+        // Dynamically insert the bundled app script in the renderer process
+        const port = process.env.PORT || 1212;
+        scripts.push(
+          (process.env.HOT)
+            ? 'http://localhost:' + port + '/dist/renderer.dev.js'
+            : './dist/renderer.prod.js'
+        );
+
+        document.write(
+          scripts
+            .map(script => '<script defer src="' + script + '"><\/script>')
+            .join('')
+        );
+      }
+    </script>
+  </body>
+</html>
