@@ -32,6 +32,7 @@
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "prefer-destructuring": "off",
+    "no-confusing-arrow": "off",
     "react/sort-comp": [
       "error",
       {

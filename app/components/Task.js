@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import Item from './Item';
 
-// const Item = styled.li`
-//   margin-bottom: 5px;
-//   text-decoration: ${props => (props.isComplete ? 'line-through' : 'initial')};
-//   cursor: pointer;
-//   -webkit-user-select: none;
-// `;
+const TaskItem = styled(Item)`
+  text-decoration: ${props => (props.isComplete ? 'line-through' : 'initial')};
+  opacity: ${props => (props.isComplete ? 0.5 : 1)};
+`;
 
 export default class Project extends Component {
   constructor(props) {
@@ -21,10 +19,10 @@ export default class Project extends Component {
 
   render() {
     return (
-      <Item isComplete={this.props.task.isComplete} onClick={this.onClick}>
-        <input type="checkbox" checked={this.props.task.isComplete} readOnly />
+      <TaskItem isComplete={this.props.task.isComplete} onClick={this.onClick}>
+        {/* <input type="checkbox" checked={this.props.task.isComplete} readOnly /> */}
         {this.props.task.title}
-      </Item>
+      </TaskItem>
     );
   }
 }

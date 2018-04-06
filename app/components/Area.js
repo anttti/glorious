@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Item from './Item';
+import Delete from './Delete';
 
-const Label = styled.span``;
-
-const Delete = styled.i`
-  position: relative;
-  top: 2px;
-  opacity: 0.4;
+const DarkItem = styled(Item)`
+  background: ${props =>
+    props.isHighlighted ? 'rgba(255,255,255,0.07)' : 'transparent'};
 
   &:hover {
-    opacity: 0.8;
+    background: rgba(255, 255, 255, 0.04);
   }
 `;
+
+const Label = styled.span``;
 
 export default class Area extends Component {
   constructor(props) {
@@ -30,10 +30,13 @@ export default class Area extends Component {
 
   render() {
     return (
-      <Item isHighlighted={this.props.isHighlighted} onClick={this.onClick}>
+      <DarkItem isHighlighted={this.props.isHighlighted} onClick={this.onClick}>
         <Label>{this.props.area.title}</Label>
-        <Delete onClick={this.onDelete} className="fas fa-times-circle" />
-      </Item>
+        <Delete
+          isHighlighted={this.props.isHighlighted}
+          onClick={this.onDelete}
+        />
+      </DarkItem>
     );
   }
 }

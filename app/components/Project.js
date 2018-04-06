@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Item from './Item';
+import Delete from './Delete';
 
-// const Item = styled.li`
-//   margin-bottom: 5px;
-//   font-weight: ${props => (props.isHighlighted ? 'bold' : 'normal')};
-//   cursor: pointer;
-//   -webkit-user-select: none;
-// `;
+const DarkItem = styled(Item)`
+  background: ${props =>
+    props.isHighlighted ? 'rgba(255,255,255,0.07)' : 'transparent'};
 
-const Delete = styled.span``;
+  &:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+`;
 
 export default class Project extends Component {
   constructor(props) {
@@ -28,10 +29,13 @@ export default class Project extends Component {
 
   render() {
     return (
-      <Item isHighlighted={this.props.isHighlighted} onClick={this.onClick}>
+      <DarkItem isHighlighted={this.props.isHighlighted} onClick={this.onClick}>
         {this.props.project.title}
-        (<Delete onClick={this.onDelete}>Delete</Delete>)
-      </Item>
+        <Delete
+          isHighlighted={this.props.isHighlighted}
+          onClick={this.onDelete}
+        />
+      </DarkItem>
     );
   }
 }

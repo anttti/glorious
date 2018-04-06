@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Area from './Area';
 import Project from './Project';
 import Task from './Task';
+import AddNew from './AddNew';
 
 const View = styled.div`
   display: flex;
@@ -11,12 +12,23 @@ const View = styled.div`
 
 const Panel = styled.div`
   flex: 1;
+  min-height: 100vh;
   padding-top: 15px;
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
+`;
+
+const FirstPanel = styled(Panel)`
+  flex: 0.5;
+  background: #3d4241;
+  color: white;
+`;
+
+const SecondPanel = styled(FirstPanel)`
+  flex: 0.5;
+  background: #4b4f4e;
 `;
 
 const Title = styled.h1`
-  margin-left: 15px;
+  margin-left: 20px;
   margin-bottom: 15px;
   font-weight: 600;
   font-size: 16px;
@@ -28,11 +40,6 @@ const List = styled.ul`
   margin-bottom: 15px;
 `;
 
-const Input = styled.input`
-  padding: 10px;
-  margin-bottom: 15px;
-`;
-
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -40,69 +47,30 @@ export default class Home extends Component {
     this.onCreateArea = this.onCreateArea.bind(this);
     this.onCreateProject = this.onCreateProject.bind(this);
     this.onCreateTask = this.onCreateTask.bind(this);
-    this.onChangeAreaTitle = this.onChangeAreaTitle.bind(this);
-    this.onChangeProjectTitle = this.onChangeProjectTitle.bind(this);
-    this.onChangeTaskTitle = this.onChangeTaskTitle.bind(this);
-
-    this.state = {
-      areaTitle: '',
-      projectTitle: '',
-      taskTitle: ''
-    };
   }
 
-  onCreateArea(e) {
-    e.preventDefault();
-    if (this.state.areaTitle.trim().length > 0) {
-      this.props.createArea(this.state.areaTitle);
-      this.setState({ areaTitle: '' });
+  onCreateArea(title) {
+    if (title.trim().length > 0) {
+      this.props.createArea(title);
     }
   }
 
-  onCreateProject(e) {
-    e.preventDefault();
-    if (
-      this.props.currentlySelectedAreaId &&
-      this.state.projectTitle.trim().length > 0
-    ) {
-      this.props.createProject(
-        this.props.currentlySelectedAreaId,
-        this.state.projectTitle
-      );
-      this.setState({ projectTitle: '' });
+  onCreateProject(title) {
+    if (this.props.currentlySelectedAreaId && title.trim().length > 0) {
+      this.props.createProject(this.props.currentlySelectedAreaId, title);
     }
   }
 
-  onCreateTask(e) {
-    e.preventDefault();
-    if (
-      this.props.currentlySelectedProjectId &&
-      this.state.taskTitle.trim().length > 0
-    ) {
-      this.props.createTask(
-        this.props.currentlySelectedProjectId,
-        this.state.taskTitle
-      );
-      this.setState({ taskTitle: '' });
+  onCreateTask(title) {
+    if (this.props.currentlySelectedProjectId && title.trim().length > 0) {
+      this.props.createTask(this.props.currentlySelectedProjectId, title);
     }
-  }
-
-  onChangeAreaTitle(e) {
-    this.setState({ areaTitle: e.target.value });
-  }
-
-  onChangeProjectTitle(e) {
-    this.setState({ projectTitle: e.target.value });
-  }
-
-  onChangeTaskTitle(e) {
-    this.setState({ taskTitle: e.target.value });
   }
 
   render() {
     return (
       <View>
-        <Panel>
+        <FirstPanel>
           <Title>Areas</Title>
           <List>
             {this.props.areas.map(area => (
@@ -115,15 +83,10 @@ export default class Home extends Component {
               />
             ))}
           </List>
-          <form onSubmit={this.onCreateArea}>
-            <Input
-              value={this.state.areaTitle}
-              onChange={this.onChangeAreaTitle}
-            />
-          </form>
-        </Panel>
+          <AddNew onSave={this.onCreateArea} />
+        </FirstPanel>
 
-        <Panel>
+        <SecondPanel>
           <Title>Projects</Title>
           <List>
             {this.props.currentProjects.map(project => (
@@ -138,14 +101,11 @@ export default class Home extends Component {
               />
             ))}
           </List>
-          <form onSubmit={this.onCreateProject}>
-            <Input
-              value={this.state.projectTitle}
-              onChange={this.onChangeProjectTitle}
-              disabled={!this.props.currentlySelectedAreaId}
-            />
-          </form>
-        </Panel>
+          <AddNew
+            onSave={this.onCreateProject}
+            isDisabled={!this.props.currentlySelectedAreaId}
+          />
+        </SecondPanel>
 
         <Panel>
           <Title>Tasks</Title>
@@ -158,12 +118,10 @@ export default class Home extends Component {
               />
             ))}
           </List>
-          <form onSubmit={this.onCreateTask}>
-            <Input
-              value={this.state.taskTitle}
-              onChange={this.onChangeTaskTitle}
-            />
-          </form>
+          <AddNew
+            onSave={this.onCreateTask}
+            isDisabled={!this.props.currentlySelectedProjectId}
+          />
         </Panel>
       </View>
     );
