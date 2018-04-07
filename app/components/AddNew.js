@@ -78,6 +78,7 @@ export default class AddNew extends React.Component {
   onSave(e) {
     e.preventDefault();
     this.props.onSave(this.state.title);
+    this.setState({ isOpen: false, title: '' });
   }
 
   onChangeTitle(e) {

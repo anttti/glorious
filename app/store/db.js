@@ -68,7 +68,8 @@ export function createTask(projectId, title) {
       hasStartDate: false,
       startDate: null,
       hasDueDate: false,
-      dueDate: null
+      dueDate: null,
+      notes: ''
     })
     .then(e => e.tasks[0]);
 }
@@ -120,6 +121,17 @@ export function toggleTask(taskId) {
       } else {
         task.dateFinished = null;
       }
+      return db.rel.save('task', task);
+    })
+    .then(t => t.tasks[0]);
+}
+
+export function updateNotes(taskId, notes) {
+  return db.rel
+    .find('task', taskId)
+    .then(t => {
+      const task = t.tasks[0];
+      task.notes = notes;
       return db.rel.save('task', task);
     })
     .then(t => t.tasks[0]);

@@ -22,6 +22,8 @@ export const DELETE_PROJECT_ERROR = 'DELETE_PROJECT_ERROR';
 export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
 export const DELETE_TASK_ERROR = 'DELETE_TASK_ERROR';
 export const TOGGLE_TASK = 'TOGGLE_TASK';
+export const UPDATE_NOTES_SUCCESS = 'UPDATE_NOTES_SUCCESS';
+export const UPDATE_NOTES_ERROR = 'UPDATE_NOTES_ERROR';
 
 export const SET_CURRENT_AREA = 'SET_CURRENT_AREA';
 export const SET_CURRENT_PROJECT = 'SET_CURRENT_PROJECT';
@@ -140,5 +142,18 @@ export function toggleTask(taskId) {
       type: TOGGLE_TASK,
       payload: await db.toggleTask(taskId)
     });
+  };
+}
+
+export function updateNotes(taskId, notes) {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: UPDATE_NOTES_SUCCESS,
+        payload: await db.updateNotes(taskId, notes)
+      });
+    } catch (err) {
+      dispatch({ type: UPDATE_NOTES_ERROR });
+    }
   };
 }

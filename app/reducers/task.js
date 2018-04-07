@@ -8,7 +8,8 @@ import {
   DELETE_TASK_SUCCESS,
   SET_CURRENT_AREA,
   SET_CURRENT_PROJECT,
-  TOGGLE_TASK
+  TOGGLE_TASK,
+  UPDATE_NOTES_SUCCESS
 } from '../actions/task';
 
 const initialState = {
@@ -67,6 +68,12 @@ export default function task(state = initialState, action) {
         tasks: state.tasks.filter(t => t.id !== action.payload)
       });
     case TOGGLE_TASK:
+      return Object.assign({}, state, {
+        tasks: state.tasks
+          .filter(t => t.id !== action.payload.id)
+          .concat([action.payload])
+      });
+    case UPDATE_NOTES_SUCCESS:
       return Object.assign({}, state, {
         tasks: state.tasks
           .filter(t => t.id !== action.payload.id)

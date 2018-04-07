@@ -116,6 +116,7 @@ export default class Home extends Component {
                 task={task}
                 onDelete={this.props.deleteTask}
                 onToggle={this.props.toggleTask}
+                onUpdateNotes={this.props.updateNotes}
               />
             ))}
           </List>
