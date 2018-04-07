@@ -114,6 +114,7 @@ export default class Home extends Component {
               <Task
                 key={task.id}
                 task={task}
+                onDelete={this.props.deleteTask}
                 onToggle={this.props.toggleTask}
               />
             ))}
@@ -121,6 +122,7 @@ export default class Home extends Component {
           <AddNew
             onSave={this.onCreateTask}
             isDisabled={!this.props.currentlySelectedProjectId}
+            isLight
           />
         </Panel>
       </View>

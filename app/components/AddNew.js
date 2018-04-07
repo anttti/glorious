@@ -47,7 +47,7 @@ export default class AddNew extends React.Component {
   constructor(props) {
     super(props);
 
-    this.input = React.createRef();
+    this.textInput = React.createRef();
 
     this.onToggle = this.onToggle.bind(this);
     this.onSave = this.onSave.bind(this);
@@ -69,9 +69,7 @@ export default class AddNew extends React.Component {
       },
       () => {
         if (this.state.isOpen) {
-          // TÄHÄ JÄI BARFFF
-
-          this.input.focus();
+          // this.textInput.current.focus();
         }
       }
     );
@@ -100,10 +98,10 @@ export default class AddNew extends React.Component {
     return (
       <Form onSubmit={this.onSave}>
         <Input
-          ref={this.input}
+          ref={this.textInput}
           value={this.state.title}
           onChange={this.onChangeTitle}
-          isLight={this.isLight}
+          isLight={this.props.isLight}
         />
         <Cancel onClick={this.onToggle}>
           <i className="fas fa-times-circle" />

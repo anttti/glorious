@@ -10,10 +10,10 @@ function mapStateToProps(state) {
 
   const currentDoneTasks = currentTasks
     .filter(t => t.isComplete)
-    .sort((a, b) => a.id > b.id);
+    .sort((a, b) => a.dateCompleted - b.dateCompleted);
   const currentNotDoneTasks = currentTasks
     .filter(t => !t.isComplete)
-    .sort((a, b) => a.id > b.id);
+    .sort((a, b) => a.dateCreated - b.dateCreated);
 
   const currentT = currentNotDoneTasks.concat(currentDoneTasks);
 

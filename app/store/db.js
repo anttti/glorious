@@ -63,6 +63,8 @@ export function createTask(projectId, title) {
       title,
       project: projectId,
       isComplete: false,
+      dateCreated: new Date().getTime(),
+      dateFinished: null,
       hasStartDate: false,
       startDate: null,
       hasDueDate: false,
@@ -113,6 +115,11 @@ export function toggleTask(taskId) {
     .then(t => {
       const task = t.tasks[0];
       task.isComplete = !task.isComplete;
+      if (task.isComplete) {
+        task.dateFinished = new Date().getTime();
+      } else {
+        task.dateFinished = null;
+      }
       return db.rel.save('task', task);
     })
     .then(t => t.tasks[0]);

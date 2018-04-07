@@ -18,6 +18,7 @@ export default class Area extends Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
   onClick() {
